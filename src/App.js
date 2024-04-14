@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+/** @format */
+
+import "./App.css";
+import { Fragment, useCallback, useState } from "react";
+import Card from "./Component/Card/Card";
+import { menus } from "./model/menu";
+import PopUp from "./Component/UI/PopUp/PopUp";
 
 function App() {
+  const [state, setState] = useState(false);
+
+  const onMenuClikcListener = (e) => {
+    e.preventDefault();
+    let data = JSON.parse(e.target.getAttribute("name"));
+
+    console.log(data);
+    setState((prevState) => !prevState);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <PopUp />
+      {menus.map((menu) => {
+        return (
+          <Card
+            key={menu.id}
+            name={menu.dishname}
+            tag={menu.tag}
+            price={menu.price}
+            onClick={onMenuClikcListener}
+          />
+        );
+      })}
+    </Fragment>
   );
 }
 
